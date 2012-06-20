@@ -6,4 +6,4 @@ freeze:
 	pip freeze >requirements.txt
 
 serve:
-	rerun foreman start
+	rerun -p "**/*.py" foreman start
