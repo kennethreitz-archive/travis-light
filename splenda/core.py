@@ -35,4 +35,9 @@ def index():
 @app.route('/<user>/<repo>')
 def repo(user, repo):
     r = requests.get('http://travis-ci.org/{0}/{1}.json'.format(user, repo))
-    return str(r.json)
+    repo = r.json
+
+    r = requests.get('http://travis-ci.org/{0}/{1}/builds.json'.format(user, repo))
+    builds = r.json
+
+    return render_template('repo.html', repo=repo, builds=builds)

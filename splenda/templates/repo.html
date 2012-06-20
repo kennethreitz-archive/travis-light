@@ -1,4 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+<h2>{{ repo }}</h2>
+
+{% for build in builds %}
+    <li><a href="{{ build['slug'] }}">{{ build['slug'] }}</a></li>
+{% endfor %}
+
+
 {% endblock %}
