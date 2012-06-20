@@ -32,12 +32,30 @@ def index():
 
     return render_template('index.html', builds=builds)
 
+
 @app.route('/<user>/<repo>')
 def repo(user, repo):
     r = requests.get('http://travis-ci.org/{0}/{1}.json'.format(user, repo))
-    repo = r.json
+    _repo = r.json
 
     r = requests.get('http://travis-ci.org/{0}/{1}/builds.json'.format(user, repo))
     builds = r.json
 
-    return render_template('repo.html', repo=repo, builds=builds)
+    url = 'http://travis-ci.org/{0}/{1}/builds/{2}.json'.format(
+        user, repo, _repo[u'last_build_id'])
+
+    r = requests.get(url)
+    build = r.json
+
+    return render_template('repo.html', repo=_repo, builds=builds, build=build)
+
+@app.route('/<user>/<repo>/<build>')
+def build(user, repo, build):
+
+    url = 'http://travis-ci.org/{0}/{1}/builds/{2}.json'.format(user, repo, build)
+
+    r = requests.get(url)
+    build = r.content
+
+    return render_template('build.html', build=build)
+

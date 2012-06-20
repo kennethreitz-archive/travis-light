@@ -2,10 +2,14 @@
 
 {% block content %}
 
-<h2>{{ repo }}</h2>
+<h2>{{ repo['slug']  }}</h2>
+
+<pre>
+{{ build }}
+</pre>
 
 {% for build in builds %}
-    <li><a href="{{ build['slug'] }}">{{ build['slug'] }}</a></li>
+    <li><a href="/{{ repo['slug'] }}/{{ build['id'] }}">{{ build['number'] }}</a></li>
 {% endfor %}
 
 
