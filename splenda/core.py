@@ -2,7 +2,10 @@
 
 import os
 
-from flask import Flask
+
+import requests
+
+from flask import Flask, render_template
 
 from flask_heroku import Heroku
 from flask_sslify import SSLify
@@ -23,5 +26,13 @@ sentry = Sentry(app)
 
 
 @app.route('/')
-def hello_world():
-    return 'Hello World!'
+def index():
+    r = requests.get('http://travis-ci.org/repositories.json')
+    builds = r.json
+
+    return render_template('index.html', builds=builds)
+
+@app.route('/<user>/<repo>')
+def repo(user, repo):
+    r = requests.get('http://travis-ci.org/{0}/{1}.json'.format(user, repo))
+    return str(r.json)

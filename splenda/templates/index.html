@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h2>Latest Builds</h2>
+    <ul>
+    {% for build in builds %}
+        <li><a href="{{ build['slug'] }}">{{ build['slug'] }}</a></li>
+    {% endfor %}
+    </ul>
+
+{% endblock %}
